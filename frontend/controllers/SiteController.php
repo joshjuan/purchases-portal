@@ -93,6 +93,11 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionEfd()
+    {
+        return $this->render('efd');
+    }
+
     public function actionPayment()
     {
         return $this->render('payment');

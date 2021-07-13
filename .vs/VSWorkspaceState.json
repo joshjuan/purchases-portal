@@ -2,8 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\frontend",
-    "\\frontend\\controllers"
+    "\\frontend\\controllers",
+    "\\frontend\\views",
+    "\\frontend\\views\\layouts",
+    "\\frontend\\views\\site",
+    "\\theme",
+    "\\theme\\styles"
   ],
-  "SelectedNode": "\\frontend\\controllers\\ProductController.php",
+  "SelectedNode": "\\frontend\\views\\layouts\\header.php",
   "PreviewInSolutionExplorer": false
 }
