@@ -7,7 +7,7 @@
 
 use frontend\models\Product;
 use yii\helpers\Html;
-use yii\bootstrap4\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 
@@ -119,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="panel-body">
                         <div class="form-group">
                             <?=
-                            $form->field($product, 'id')->widget(Select2::classname(), [
+                            $form->field($appItem, 'product_id')->widget(Select2::classname(), [
                                 'data' => Product::getAll(),
 
                                 'options' => ['placeholder' => 'Select a Product ...',

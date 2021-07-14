@@ -44,7 +44,7 @@ class User extends \common\models\User
     {
         return [
          //   [['full_name', 'username', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
-          //  [['password'], 'required'],
+            [['password','repassword'], 'required'],
             [['user_signature'], 'string'],
             [['branch_id', 'emp_id', 'agent_id', 'user_type', 'status', 'created_at', 'updated_at'], 'integer'],
             [['full_name', 'role'], 'string', 'max' => 200],

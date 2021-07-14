@@ -121,16 +121,14 @@ if (Yii::$app->user->isGuest) {  ?>
 
 <?php }else { ?>
 
+    </div>
 
-    <script src="themes/styles/dashboard/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="theme/styles/dashboard/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <!-- bootstap bundle js -->
-    <script src="themes/styles/dashboard/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="theme/styles/dashboard/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <!-- slimscroll js -->
-    <script src="themes/styles/dashboard/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <script src="theme/styles/dashboard/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
     <!-- main js -->
-    <script src="themes/styles/dashboard/assets/libs/js/main-js.js"></script>
+    <script src="theme/styles/dashboard/assets/libs/js/main-js.js"></script>
 
-    </body>
-
-    </html>
 <?php } ?>

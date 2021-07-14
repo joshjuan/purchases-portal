@@ -38,8 +38,21 @@ class Product extends \yii\db\ActiveRecord
     public static function getAllItems()
     {
         $items = Product::find()
-            ->where(['status' => 1])
-         //   ->andWhere(['type_id' => 1])
+            ->where(['status' => 0])
+            ->andWhere(['type_id' => 1])
+            ->All();
+        if ($items != null) {
+            return $items;
+        } else {
+            return null;
+        }
+    }
+
+    public static function getAllPackages()
+    {
+        $items = Product::find()
+            ->where(['status' => 0])
+            ->andWhere(['category' => 6])
             ->All();
         if ($items != null) {
             return $items;
@@ -63,7 +76,7 @@ class Product extends \yii\db\ActiveRecord
     {
         return ArrayHelper::map(Product::find()
             ->where(['status'=>Product::AVAILABLE])
-            ->andWhere(['type_id'=>2])
+            ->andWhere(['category'=>6])
             ->all(),'id',function ($model){
             return $model->product_name.' ( Price '.number_format($model->price, 2, '.', ',').')';
         });

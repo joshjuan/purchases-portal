@@ -61,7 +61,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           // [['tin_number', 'street', 'tax_regional','name','phone_number','tax_regional','business_type'], 'required'],
+            [['tin_number', 'street', 'tax_regional','name','phone_number','tax_regional','business_type','applicant_title'], 'required'],
             [['tin_number'], 'unique'],
             [['tin_number', 'branch_id', 'status', 'customer_type', 'in_contract'], 'integer'],
             [['email'], 'string'],
@@ -78,7 +78,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Company Name',
             'tin_number' => 'Tin Number',
             'phone_number' => 'Phone Number',
             'phone_number2' => 'Phone Number2',

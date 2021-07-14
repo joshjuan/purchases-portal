@@ -210,13 +210,13 @@ class SiteController extends Controller
     {
         $product = new Product();
       //  $app = new Application();
-      //  $appItem = new ApplicationItem();
+        $appItem = new ApplicationItem();
         $customer = new Customer();
         $attachment = new Attachments();
         $user = new User();
         //  $user->signup()
 
-        if ($customer->load(Yii::$app->request->post()) && $product->load(Yii::$app->request->post()) &&
+        if ($customer->load(Yii::$app->request->post()) && $appItem->load(Yii::$app->request->post()) &&
             $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
 
             $customer->status = 0;
@@ -282,12 +282,12 @@ class SiteController extends Controller
                    if ( $app->save(false)){
 
                        $newItem = new ApplicationItem();
-                       $newItem->product_id=$product->id;
+                       $newItem->product_id=$appItem->product_id;
                        $newItem->app_id = $app->id;
                        $newItem->qty = 1;
-                       $newItem->price = Product::getPrice($product->id); //gets product price
+                       $newItem->price = Product::getPrice($appItem->product_id); //gets product price
 
-                       $TAX_COEF = (Product::getTax($product->id) / 100) + 1;
+                       $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
                        $total = $TAX_COEF * $newItem->price * $newItem->qty;
 
                        $taxAmount = $total - ($newItem->price * $newItem->qty);
@@ -318,6 +318,7 @@ class SiteController extends Controller
             'product' => $product,
             'attachment' => $attachment,
             'user' => $user,
+            'appItem' => $appItem,
         ]);
     }
 
@@ -325,13 +326,13 @@ class SiteController extends Controller
     {
         $product = new Product();
       //  $app = new Application();
-      //  $appItem = new ApplicationItem();
+        $appItem = new ApplicationItem();
         $customer = new Customer();
         $attachment = new Attachments();
         $user = new User();
         //  $user->signup()
 
-        if ($customer->load(Yii::$app->request->post()) && $product->load(Yii::$app->request->post()) &&
+        if ($customer->load(Yii::$app->request->post()) && $appItem->load(Yii::$app->request->post()) &&
             $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
 
             $customer->status = 0;
@@ -397,12 +398,12 @@ class SiteController extends Controller
                    if ( $app->save(false)){
 
                        $newItem = new ApplicationItem();
-                       $newItem->product_id=$product->id;
+                       $newItem->product_id=$appItem->product_id;
                        $newItem->app_id = $app->id;
                        $newItem->qty = 1;
-                       $newItem->price = Product::getPrice($product->id); //gets product price
+                       $newItem->price = Product::getPrice($appItem->product_id); //gets product price
 
-                       $TAX_COEF = (Product::getTax($product->id) / 100) + 1;
+                       $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
                        $total = $TAX_COEF * $newItem->price * $newItem->qty;
 
                        $taxAmount = $total - ($newItem->price * $newItem->qty);
@@ -433,6 +434,7 @@ class SiteController extends Controller
             'product' => $product,
             'attachment' => $attachment,
             'user' => $user,
+            'appItem' => $appItem,
         ]);
     }
 

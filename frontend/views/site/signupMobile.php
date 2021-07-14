@@ -7,7 +7,7 @@
 
 use frontend\models\Product;
 use yii\helpers\Html;
-use yii\bootstrap4\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 
@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         $("#business").css('display', (this.value == '1') ? 'block' : 'none');
     });
 </script>
+
+
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -85,8 +87,6 @@ $this->params['breadcrumbs'][] = $this->title;
         border-radius: 15px;
     }
 </style>
-
-
 <div class="container" style="padding-top: 150px">
     <div class="stepwizard">
         <div class="stepwizard-row setup-panel">
@@ -108,7 +108,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-    <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'enctype' => 'multipart/form-data',
+            'id' => 'dynamic-form'
+        ],
+    ]); ?>
     <div class="container">
         <div class="col-xs-12">
             <form role="form">
@@ -119,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="panel-body">
                         <div class="form-group">
                             <?=
-                            $form->field($product, 'id')->widget(Select2::classname(), [
+                            $form->field($appItem, 'product_id')->widget(Select2::classname(), [
                                 'data' => Product::getMobilePackageAll(),
 
                                 'options' => ['placeholder' => 'Select a Product ...',
@@ -181,10 +186,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= $form->field($customer, 'house_no')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeHolder' => 'House']) ?>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <?= $form->field($user, 'password')->passwordInput() ?>
+                                    <?= $form->field($user, 'password')->passwordInput(['required' => true]) ?>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <?= $form->field($user, 'repassword')->passwordInput() ?>
+                                    <?= $form->field($user, 'repassword')->passwordInput(['required' => true]) ?>
                                 </div>
 
                             </div>
