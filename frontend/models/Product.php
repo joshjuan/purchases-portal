@@ -24,7 +24,8 @@ use yii\helpers\ArrayHelper;
  */
 class Product extends \yii\db\ActiveRecord
 {
-    const AVAILABLE = 1;
+    const UNAVAILABLE = 1;
+    const AVAILABLE = 0;
 
     /**
      * {@inheritdoc}
@@ -38,7 +39,7 @@ class Product extends \yii\db\ActiveRecord
     {
         $items = Product::find()
             ->where(['status' => 1])
-            ->andWhere(['type_id' => 1])
+         //   ->andWhere(['type_id' => 1])
             ->All();
         if ($items != null) {
             return $items;
@@ -51,11 +52,21 @@ class Product extends \yii\db\ActiveRecord
     {
         return ArrayHelper::map(Product::find()
             ->where(['status'=>Product::AVAILABLE])
+            ->andWhere(['type_id'=>1])
             ->all(),'id',function ($model){
             return $model->product_name.' ( Price '.number_format($model->price, 2, '.', ',').')';
         });
 
+    }
 
+    public static function getMobilePackageAll()
+    {
+        return ArrayHelper::map(Product::find()
+            ->where(['status'=>Product::AVAILABLE])
+            ->andWhere(['type_id'=>2])
+            ->all(),'id',function ($model){
+            return $model->product_name.' ( Price '.number_format($model->price, 2, '.', ',').')';
+        });
 
     }
 

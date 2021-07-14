@@ -83,10 +83,25 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex1()
     {
         return $this->render('index');
     }
+
+    public function actionIndex()
+    {
+        $model = new Product();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+
+
 
     public function actionDashboard()
     {
@@ -299,6 +314,121 @@ class SiteController extends Controller
         }
 
         return $this->render('signup', [
+            'customer' => $customer,
+            'product' => $product,
+            'attachment' => $attachment,
+            'user' => $user,
+        ]);
+    }
+
+    public function actionSignupMobile()
+    {
+        $product = new Product();
+      //  $app = new Application();
+      //  $appItem = new ApplicationItem();
+        $customer = new Customer();
+        $attachment = new Attachments();
+        $user = new User();
+        //  $user->signup()
+
+        if ($customer->load(Yii::$app->request->post()) && $product->load(Yii::$app->request->post()) &&
+            $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
+
+            $customer->status = 0;
+            $customer->in_contract = 0;
+            $customer->branch_id = 10;
+            $customer->maker_id = 'ONLINE REGISTRATION';
+            $customer->maker_time = date('Y-m-d H:i:s');
+
+            if ($customer->save(false)) {
+
+                $user->full_name=$customer->name;
+                $user->username =$customer->tin_number;
+                $user->email =$customer->email;
+                $user->branch_id =$customer->branch_id;
+                $user->created_at =date('YmdHis');
+                $user->updated_at =date('YmdHis');
+                $user->user_type =2;
+                $user->emp_id =0;
+                $user->role ='Customer';
+                $user->password_hash=Yii::$app->security->generatePasswordHash($user->password);
+                $user->auth_key= Yii::$app->security->generateRandomString() . '_' . time();
+                $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+                $user->save(false);
+
+                $attachment->business = UploadedFile::getInstance($attachment, 'business');
+                $attachment->identity = UploadedFile::getInstance($attachment, 'identity');
+                $attachment->tax_form = UploadedFile::getInstance($attachment, 'tax_form');
+
+                if ($attachment->business) {
+                    $attachment->business = UploadedFile::getInstance($attachment, 'business');
+                    $attachment->business->saveAs('uploads/' . 'BL' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->business->extension);
+                    $attachment->business_licence = 'BL' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->business->extension;
+                }
+
+
+                if ($attachment->identity && $attachment->tax_form) {
+
+                    $attachment->identity = UploadedFile::getInstance($attachment, 'identity');
+                    $attachment->identity->saveAs('uploads/' . 'OWNER-ID' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->identity->extension);
+                    $attachment->identification = 'OWNER-ID' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->identity->extension;
+
+
+                    $attachment->tax_form = UploadedFile::getInstance($attachment, 'tax_form');
+                    $attachment->tax_form->saveAs('uploads/' . 'TIN' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->tax_form->extension);
+                    $attachment->tax_identification = 'TIN' . $_POST['Customer']['tin_number'] . date('YmdHi') . '.' . $attachment->tax_form->extension;
+                }
+
+                $attachment->customer_id = $customer->id;
+                $attachment->created_at = date('Y-m-d H:i:s');
+                $attachment->created_by = $customer->maker_id;
+                $attachment->branch_id = 10;
+                if ($attachment->save(false)) {
+                    $app = new Application();
+                    $app->status = Application::SUBMITTED;
+                    $app->maker_id = $customer->maker_id;
+                    $app->branch_id = 10;
+                    $app->customer_id = $customer->id;
+                    $app->maker_time = date('Y-m-d:H:i:s');
+                    $app->auth_status = 'U';
+                    $app->send_tra = 0;
+                    $app->app_dt = date('Y-m-d H:i:s');
+                    $app->app_ref_number = Reference::findLast();
+                   if ( $app->save(false)){
+
+                       $newItem = new ApplicationItem();
+                       $newItem->product_id=$product->id;
+                       $newItem->app_id = $app->id;
+                       $newItem->qty = 1;
+                       $newItem->price = Product::getPrice($product->id); //gets product price
+
+                       $TAX_COEF = (Product::getTax($product->id) / 100) + 1;
+                       $total = $TAX_COEF * $newItem->price * $newItem->qty;
+
+                       $taxAmount = $total - ($newItem->price * $newItem->qty);
+
+                       $newItem->total = $total;
+                       $newItem->tax_amount = $taxAmount;
+                       $newItem->app_status = Application::SUBMITTED;
+                       $newItem->maker_id =$customer->maker_id;
+                       $newItem->maker_time = date('Y-m-d H:i:s');
+                       $newItem->save();
+                   }
+
+                    Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                    return $this->redirect(['site/login']);
+                }
+
+
+            }
+            //  print_r($customer->tin_number);
+            // die;
+
+        //   Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
+        }
+
+        return $this->render('signupMobile', [
             'customer' => $customer,
             'product' => $product,
             'attachment' => $attachment,

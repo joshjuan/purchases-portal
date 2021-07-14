@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Web';
@@ -64,12 +65,13 @@ $this->title = 'Web';
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 d-flex flex-column justify-content-center">
-                    <h1 data-aos="fade-up">We offer modern solutions for growing your business</h1>
-                    <h2 data-aos="fade-up" data-aos-delay="400">With web vfd you now get a chance to manage your bussiness more effectively.</h2>
+                    <h1 data-aos="fade-up">WebVFD Solution</h1>
+                    <h2 data-aos="fade-up" data-aos-delay="400"> A new generation online cash register substitute of Electronic Fiscal Device (EFD) designed for issurance of TRA Authorized fiscal receipts by taxpayers in a real time.
+                    </h2>
                     <div data-aos="fade-up" data-aos-delay="600">
                         <div class="text-center text-lg-start">
-                            <a href="#about" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                                <span>Get Started</span>
+                            <a href="#pricing" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Buy Now</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
@@ -149,128 +151,41 @@ $this->title = 'Web';
                 <div class="tab-pane fade show active" id="orange">
 
                     <div class="row gy-4" data-aos="fade-left">
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-                            <div class="box">
-                                <h3 style="color: #07d5c0;">Kitonga Plan</h3>
-                                <div class="price"><sup>TSH</sup>60,000<span> / yearly</span></div>
-                                <img src="assets/img/pricing-free.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="box">
-                                <span class="featured">ChapChap Plan</span>
-                                <h3 style="color: #65c600;">ChapChap Plan</h3>
-                                <div class="price"><sup>TSH</sup>60,000<span> / year</span></div>
-                                <img src="assets/img/pricing-starter.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-                            <div class="box">
-                                <h3 style="color: #07d5c0;">Entry Plan</h3>
-                                <div class="price"><sup>TSH</sup>60,000<span> / yearly</span></div>
-                                <img src="assets/img/pricing-free.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                            <div class="box">
-                                <span class="featured">Basic Plan</span>
-                                <h3 style="color: #65c600;">Basic</h3>
-                                <div class="price"><sup>TSH</sup>60,000<span> / year</span></div>
-                                <img src="assets/img/pricing-starter.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                            <div class="box">
-                                <h3 style="color: #ff901c;">Standard Plan</h3>
-                                <div class="price"><sup>TSH</sup>120,000<span> / year</span></div>
-                                <img src="assets/img/pricing-business.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                            <div class="box">
-                                <h3 style="color: #ff0071;">Premium Plan</h3>
-                                <div class="price"><sup>TSH</sup>310,000<span> / year</span></div>
-                                <img src="assets/img/pricing-ultimate.png" class="img-fluid" alt="">
-                                <ul>
-                                    <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
-                                    <li> <i class="bi bi-check2"></i>Barcode scanning
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Track and manage inventory
-                                    </li>
-                                    <li> <i class="bi bi-check2"></i>Manage Single Store</li>
-                                    <li> <i class="bi bi-check2"></i>Single User</li>
-                                </ul>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">
-                             Buy Now
-                             </button>
-                            </div>
-                        </div>
+
+                        <?php
+                        $items = \frontend\models\Product::getAllItems();
+                        if ($items != null) {
+                            foreach ($items as $item) {
+                                ?>
+
+                                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                                    <div class="box">
+                                        <span class="featured">ChapChap Plan</span>
+                                        <h3 style="color: #65c600;">ChapChap Plan</h3>
+                                        <div class="price"><sup>TSH</sup>60,000<span> / year</span></div>
+                                        <img src="assets/img/pricing-starter.png" class="img-fluid" alt="">
+                                        <ul>
+                                            <li> <i class="bi bi-check2"></i>Sales and receipt printing </li>
+                                            <li> <i class="bi bi-check2"></i>Barcode scanning
+                                            </li>
+                                            <li> <i class="bi bi-check2"></i>Track and manage inventory
+                                            </li>
+                                            <li> <i class="bi bi-check2"></i>Manage Single Store</li>
+                                            <li> <i class="bi bi-check2"></i>Single User</li>
+                                        </ul>
+                                        <!-- Button trigger modal -->
+<!--                                        <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">-->
+<!--                                            Buy Now-->
+<!--                                        </button>-->
+                                        <?= Html::a('<span class="btn-label">Buy Now</span>', ['site/signup-mobile'], ['class' => 'btn btn-info','data-toggle'=>"modal" ,'data-target'=>"#exampleModalLong"]) ?>
+                                    </div>
+                                </div>
+
+                            <?php }}
+
+
+                        ?>
+
 
                     </div>
                 </div>
@@ -349,8 +264,7 @@ $this->title = 'Web';
         </div>
     </section>
 
-
-
+    
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -368,9 +282,7 @@ $this->title = 'Web';
                         </li>
                         <li> <i class="bi bi-check2"></i>Track and manage inventory
                         </li>
-                        <li <i class="bi bi-check2">
-                            </i>>Unlimited products
-                        </li>
+                        <li> <i class="bi bi-check2"></i>Unlimited products </li>
                         <li> <i class="bi bi-check2"></i>Manage customer data
                         </li>
                         <li> <i class="bi bi-check2"></i>-reports
@@ -385,7 +297,7 @@ $this->title = 'Web';
                         </li>
                         <li> <i class="bi bi-check2"></i>Basic reporting
                         </li>
-                        <li> <i class="bi bi-check2"></i><b>     Installation & Configuration fee 200,000/TSH 
+                        <li> <i class="bi bi-check2"></i><b>     Installation & Configuration fee 200,000/TSH
                         </b>
                         </li>
                         <li> <i class="bi bi-check2"></i><b>#First Year Free</b>
@@ -396,7 +308,7 @@ $this->title = 'Web';
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn " data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-buy">Buy Now</button>
+                    <?= Html::a('<span class="btn-label">Buy</span>', ['site/signup-mobile'], ['class' => 'btn btn-primary']) ?>
                 </div>
             </div>
         </div>
@@ -422,7 +334,7 @@ $this->title = 'Web';
                             </h2>
                             <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                                 <div class="accordion-body">
-                                    WebVFD is an application system that’s been developed and directly connected to TRA tax administrator server to enable the tax payer easily issuing of fiscal receipts with QR Code in real-time.
+                                    WebVFD is an application system thatï¿½s been developed and directly connected to TRA tax administrator server to enable the tax payer easily issuing of fiscal receipts with QR Code in real-time.
                                 </div>
                             </div>
                         </div>
@@ -447,7 +359,7 @@ $this->title = 'Web';
                             <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
                                 <div class="accordion-body">
                                     The application system is available on the mobile application on which the tax payer (business person) is able to install on their phone, register products, make sales and print receipts through the device, and send receipts to clients through email,
-                                    or what’s app, etc
+                                    or whatï¿½s app, etc
                                 </div>
                             </div>
                         </div>
@@ -489,7 +401,7 @@ $this->title = 'Web';
                             <div id="faq2-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist2">
                                 <div class="accordion-body">
                                     In order to get a new WebVFD account, The following documment must be submitted;
-                                    <br> 1. TIN Certificate TIN Owner ID (NIDA, Driving Licence, Passport, Voter’s ID) Business License UIN Form (well filled and signed by business owner)
+                                    <br> 1. TIN Certificate TIN Owner ID (NIDA, Driving Licence, Passport, Voterï¿½s ID) Business License UIN Form (well filled and signed by business owner)
                                     <br> 2.VFD Application letter
                                 </div>
                             </div>
