@@ -37,6 +37,10 @@ phpunit.phar
 # common
 /main-local.php
 
+
+# common
+/backup
+
 # ignore generated files
 /frontend/web/index.php
 /frontend/web/index-test.php
