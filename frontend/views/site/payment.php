@@ -92,25 +92,26 @@ $this->params['breadcrumbs'][] = $this->title;
                             Menu
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/dashboard']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-dolly"></i>My Order <span
-                                        class="badge badge-success">6</span></a>
+                            <a class="nav-link " href="<?= Url::toRoute(['site/dashboard']) ?>"
+                               aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-dolly"></i>My Order <span
+                                    class="badge badge-success">6</span></a>
                         </li>
                         <li class="nav-item active ">
                             <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-dollar-sign"></i>Payment <span
-                                        class="badge badge-success">6</span></a>
+                                    class="fa fa-fw fa-dollar-sign"></i>Payment <span
+                                    class="badge badge-success">6</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/app']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-file"></i>My Application <span
-                                        class="badge badge-success">6</span></a>
+                            <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-file"></i>Document <span
+                                    class="badge badge-success">6</span></a>
                         </li>
 
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/support']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-exclamation-circle"></i>Support <span
-                                        class="badge badge-success">6</span></a>
+                            <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-exclamation-circle"></i>Support <span
+                                    class="badge badge-success">6</span></a>
                         </li>
 
                     </ul>

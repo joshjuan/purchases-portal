@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use backend\models\ProductSerialNumber;
 use Yii;
 
 /**
@@ -129,4 +130,10 @@ class ApplicationUin extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Application::className(), ['id' => 'app_id']);
     }
+
+    public function getProduct0()
+    {
+        return $this->hasOne(ProductSerialNumber::className(), ['serial_number' => 'product_serial_number']);
+    }
+
 }

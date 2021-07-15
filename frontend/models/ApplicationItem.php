@@ -34,6 +34,18 @@ class ApplicationItem extends \yii\db\ActiveRecord
         return 'tbl_application_item';
     }
 
+    public static function getAllTotal($id)
+    {
+        $model = ApplicationItem::find()
+        ->where(['app_id' =>$id])
+        ->sum('total');
+        if ($model > 0) {
+            return $model;
+        } else {
+            return '0.00';
+        }
+    }
+
     /**
      * {@inheritdoc}
      */

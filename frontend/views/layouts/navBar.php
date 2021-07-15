@@ -48,7 +48,7 @@ use common\widgets\Alert;
 
                     <li class="nav-item dropdown nav-user">
                         <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false"><img src="theme/stylses/assets/images/avatar-1.jpg" alt=""
+                           aria-haspopup="true" aria-expanded="false"><img src="theme/styles/dashboard/assets/images/images.png" alt=""
                                                                            class="user-avatar-md rounded-circle"></a>
                         <div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
                              aria-labelledby="navbarDropdownMenuLink2">
@@ -92,13 +92,13 @@ use common\widgets\Alert;
                                         class="badge badge-success">6</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/app']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-file"></i>My Application <span
+                            <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
+                                        class="fa fa-fw fa-file"></i>Document <span
                                         class="badge badge-success">6</span></a>
                         </li>
 
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/support']) ?>" aria-controls="submenu-1"><i
+                            <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
                                         class="fa fa-fw fa-exclamation-circle"></i>Support <span
                                         class="badge badge-success">6</span></a>
                         </li>

@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use frontend\models\Application;
 use frontend\models\ApplicationItem;
+use frontend\models\ApplicationSearch;
 use frontend\models\Attachments;
 use frontend\models\Customer;
 use frontend\models\Product;
@@ -90,22 +91,27 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $model = new Product();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        $searchModel = new ApplicationSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
+
     }
 
 
 
     public function actionDashboard()
     {
-        return $this->render('index');
+        $searchModel = new ApplicationSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionEfd()
