@@ -95,7 +95,7 @@ class Application extends \yii\db\ActiveRecord
             'id' => 'ID',
             'app_ref_number' => 'App Ref Number',
             'app_dt' => 'App Dt',
-            'customer_id' => 'Customer ID',
+            'customer_id' => 'Company Name',
             'branch_id' => 'Branch ID',
             'agent_id' => 'Agent ID',
             'status' => 'Status',
@@ -133,7 +133,12 @@ class Application extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(TblCustomer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
+
+    public function getStatus0()
+    {
+        return $this->hasOne(Status::className(), ['name' => 'status']);
     }
 
     /**
@@ -143,6 +148,6 @@ class Application extends \yii\db\ActiveRecord
      */
     public function getTblApplicationUins()
     {
-        return $this->hasMany(TblApplicationUin::className(), ['app_id' => 'id']);
+        return $this->hasMany(ApplicationUin::className(), ['app_id' => 'id']);
     }
 }
