@@ -26,6 +26,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
+use frontend\models\AttachmentsSearch;
 
 /**
  * Site controller
@@ -109,6 +110,17 @@ class SiteController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    public function actionDocument()
+    {
+        $searchModel = new AttachmentsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('document', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

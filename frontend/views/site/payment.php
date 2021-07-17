@@ -103,8 +103,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     class="badge badge-success">6</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i
-                                    class="fa fa-fw fa-file"></i>Document <span
+                            <a class="nav-link " href="<?= Url::toRoute(['site/document']) ?>" aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-file"></i>My Document <span
                                     class="badge badge-success">6</span></a>
                         </li>
 

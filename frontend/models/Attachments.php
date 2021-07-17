@@ -42,8 +42,11 @@ class Attachments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['business','identity','tax_form','uin_form','letter'], 'file'],
-            [['identity','tax_form','uin_form'], 'file', 'extensions' => 'pdf,jpg, jpeg, png', 'skipOnEmpty' => false,
+            [['identity','tax_form'], 'required'],
+            [['business','identity','tax_form'], 'file'],
+            [['identity','tax_form'], 'file', 'extensions' => 'pdf,jpg, jpeg, png', 'skipOnEmpty' => false,
+                'checkExtensionByMimeType' => false],
+            [['business'], 'file', 'extensions' => 'pdf,jpg, jpeg, png', 'skipOnEmpty' => true,
                 'checkExtensionByMimeType' => false],
 
             [['customer_id', 'branch_id'], 'integer'],
@@ -59,7 +62,7 @@ class Attachments extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'customer_id' => 'Customer ID',
+            'customer_id' => 'Company Name',
             'branch_id' => 'Branch ID',
             'business_licence' => 'Business Licence',
             'identification' => 'Identification',

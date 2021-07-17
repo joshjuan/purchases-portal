@@ -48,6 +48,7 @@ return [
             ],
         ],
         */
+
     ],
     'modules' => [
         'gridview'=> [
@@ -60,7 +61,7 @@ return [
         'rules' => [
             [
                 'allow' => true,
-                'actions' => ['login', 'index', 'signup', 'signup-mobile'],
+                'actions' => ['login', 'index', 'signup', 'signup-mobile','efd'],
             ],
             [
                 'allow' => true,

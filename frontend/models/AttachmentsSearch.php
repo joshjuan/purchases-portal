@@ -41,6 +41,7 @@ class AttachmentsSearch extends Attachments
     public function search($params)
     {
         $query = Attachments::find();
+        $query->where(['customer_id'=>\Yii::$app->user->identity->getId()]);
 
         // add conditions that should always apply here
 

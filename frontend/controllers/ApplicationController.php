@@ -52,6 +52,9 @@ class ApplicationController extends Controller
         ]);
     }
 
+
+
+
     /**
      * Displays a single Application model.
      * @param integer $id
