@@ -2,7 +2,7 @@
 
 namespace frontend\models;
 
-use backend\models\ProductSerialNumber;
+use frontend\models\ProductSerialNumber;
 use Yii;
 
 /**

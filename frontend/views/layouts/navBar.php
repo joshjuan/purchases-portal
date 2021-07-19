@@ -55,7 +55,7 @@ use common\widgets\Alert;
                             <div class="nav-user-info">
                                 <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
                             </div>
-                            <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>My Account</a>
+                            <a class="dropdown-item" href="<?= Url::toRoute(['user/account']) ?>" ><i class="fas fa-user mr-2"></i>My Account</a>
                             <?= Html::a('<i class="fas fa-power-off mr-2"> </i> Logout', ['/site/logout'], ['data-method' => 'post', 'class' => 'dropdown-item']) ?>
                         </div>
                     </li>
@@ -91,11 +91,12 @@ use common\widgets\Alert;
                                         class="fa fa-fw fa-dollar-sign"></i>Payment <span
                                         class="badge badge-success">6</span></a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " href="<?= Url::toRoute(['site/document']) ?>" aria-controls="submenu-1"><i
-                                        class="fa fa-fw fa-file"></i>My Document <span
-                                        class="badge badge-success">6</span></a>
-                        </li>
+                   <li class="nav-item ">
+                        <a class="nav-link " href="<?= Url::toRoute(['attachments/index']) ?>" aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-file"></i>My Document <span
+                                    class="badge badge-success">6</span></a>
+                    </li>
+
 
                         <li class="nav-item ">
                             <a class="nav-link " href="<?= Url::toRoute(['site/payment']) ?>" aria-controls="submenu-1"><i

@@ -9,10 +9,8 @@ use yii\helpers\Url;
 
 $this->title = 'Web';
 ?>
-<?php if (Yii::$app->user->isGuest) { ?>
+<?php if (!Yii::$app->user->isGuest) { ?>
 
-
-<?php } else { ?>
 
 
 <!-- ============================================================== -->
@@ -130,12 +128,12 @@ $this->title = 'Web';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{update}',
+            'template' => '{view}{update}',
             'header' => 'Actions',
             'buttons' => [
                 'view' => function ($url, $model) {
                     return Html::a('<span class="btn btn-sm btn-default"><b class="fa fa-eye"></b></span>', [
-                        'view',
+                        'view-document',
                         'id' => $model['id']
                     ], [
                         'title' => 'View',

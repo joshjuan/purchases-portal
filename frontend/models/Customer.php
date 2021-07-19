@@ -106,10 +106,7 @@ class Customer extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getServicePasswords()
-    {
-        return $this->hasMany(ServicePassword::className(), ['customer_id' => 'id']);
-    }
+
 
     /**
      * Gets query for [[TblApplications]].
@@ -118,6 +115,6 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getTblApplications()
     {
-        return $this->hasMany(TblApplication::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Application::className(), ['customer_id' => 'id']);
     }
 }

@@ -47,15 +47,16 @@ use common\widgets\Alert;
                 </li>
 
                 <li class="nav-item dropdown nav-user">
-                    <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
-                    <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                    <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"><img src="theme/styles/dashboard/assets/images/images.png" alt=""
+                                                                       class="user-avatar-md rounded-circle"></a>
+                    <div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
+                         aria-labelledby="navbarDropdownMenuLink2">
                         <div class="nav-user-info">
                             <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                            <span class="status"></span><span class="ml-2">Available</span>
                         </div>
-                        <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                        <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>My Account</a>
+                        <?= Html::a('<i class="fas fa-power-off mr-2"> </i> Logout', ['/site/logout'], ['data-method' => 'post', 'class' => 'dropdown-item']) ?>
                     </div>
                 </li>
             </ul>
@@ -90,8 +91,8 @@ use common\widgets\Alert;
                                     class="badge badge-success">6</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link " href="<?= Url::toRoute(['site/document']) ?>" aria-controls="submenu-1"><i
-                                    class="fa fa-fw fa-file"></i>My Document <span
+                        <a class="nav-link " href="<?= Url::toRoute(['attachments/index']) ?>" aria-controls="submenu-1"><i
+                                    class="fa fa-fw fa-file"></i>Myy Document <span
                                     class="badge badge-success">6</span></a>
                     </li>
 

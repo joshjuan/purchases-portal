@@ -19,14 +19,14 @@ return [
             'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => false,
             'enableSession' => true,
-            'authTimeout' => 1800, //3 minutes
+            'authTimeout' => 1200, //3 minutes
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend/backend
             'class' => 'yii\web\Session',
             'name' => 'advanced-frontend',
-            'timeout' => 1800,
+            'timeout' => 1200,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

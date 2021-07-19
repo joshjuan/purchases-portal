@@ -77,4 +77,21 @@ class Attachments extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+    
+    
+    public function getCustomer()
+    {
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
+
+    public function getApp()
+    {
+        return $this->hasOne(Application::className(), ['customer_id' => 'customer_id']);
+    }
+    
+    public function getAttachmentBus()
+    {
+        return $this->hasOne(Attachments::className(), ['id' => 'business_licence']);
+    }
+    
 }

@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "tbl_application".
  *
@@ -70,6 +71,39 @@ class Application extends \yii\db\ActiveRecord
         return 'tbl_application';
     }
 
+    
+    
+    public static function OnProgress()
+    {
+        $model = Application::findAll(['status' =>0,'customer_id'=>\Yii::$app->user->identity->getId()]);
+        if (count($model) > 0) {
+            return count($model);
+        } else {
+            return 0;
+        }
+        
+    }
+    public static function Paid()
+    {
+        $model = Application::findAll(['status' =>1,'fiscal_code'=>1,'customer_id'=>\Yii::$app->user->identity->getId()]);
+        if (count($model) > 0) {
+            return count($model);
+        } else {
+            return 0;
+        }
+        
+    }
+    public static function Completed()
+    {
+        $model = ApplicationUin::findAll(['status' =>7]);
+        if (count($model) > 0) {
+            return count($model);
+        } else {
+            return 0;
+        }
+        
+    }
+    
     /**
      * {@inheritdoc}
      */

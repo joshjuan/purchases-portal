@@ -6,41 +6,114 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Attachments */
 
-$this->title = $model->id;
+$this->title = 'My Attachments';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('yii', 'Attachments'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="attachments-view">
+<?php if (!Yii::$app->user->isGuest) { ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('yii', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('yii', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <!-- ============================================================== -->
+    <!-- end left sidebar -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- wrapper  -->
+    <!-- ============================================================== -->
+    <div class="dashboard-wrapper">
+        <div class="container-fluid  dashboard-content">
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'customer_id',
-            'branch_id',
-            'business_licence',
-            'identification',
-            'tax_identification',
-            'uin',
-            'representative_id',
-            'app_letter',
-            'created_by',
-            'created_at',
-        ],
-    ]) ?>
 
-</div>
+            <div class="row">
+                <!-- ============================================================== -->
+                <!-- basic table  -->
+                <!-- ============================================================== -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+
+                        <h3><?= Html::encode($this->title) ?></h3>
+
+                        <p>
+                            <?= Html::a(Yii::t('yii', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                            <?= Html::a('Back Home', ['index', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
+                        </p>
+
+                        <?= DetailView::widget([
+                            'model' => $model,
+                            'attributes' => [
+                                [
+                                    'attribute' => 'customer_id',
+                                    'label' => 'Customer',
+                                    'value' => $model->customer->name,
+                                ],
+                                [
+                                    'attribute' => 'customer_id',
+                                    'label' => 'TIN No',
+                                    'value' => $model->customer->tin_number,
+                                ],
+                                [
+                                    'label' => 'BUSINESS LICENCE',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        if ($model->business_licence == null) {
+                                            return '';
+                                        } elseif ($model->business_licence != null) {
+
+
+                                            $basepath = Yii::$app->request->baseUrl . '/../uploads/' . $model->business_licence;
+                                            //$path = str_replace($basepath, '', $model->attachment);
+                                            return Html::a('<i class="fa fa-file text-green"></i>', $basepath, ['target' => '_blank', 'data-pjax' => "0"]);
+
+
+                                        }
+                                    }
+                                ],
+                                [
+                                    'label' => 'TAX IDENTIFICATION',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        if ($model->tax_identification == null) {
+                                            return '';
+                                        } elseif ($model->tax_identification != null) {
+
+
+                                            $basepath = Yii::$app->request->baseUrl . '/../uploads/' . $model->tax_identification;
+                                            //$path = str_replace($basepath, '', $model->attachment);
+                                            return Html::a('<i class="fa fa-file text-green"></i>', $basepath, ['target' => '_blank', 'data-pjax' => "0"]);
+
+
+                                        }
+                                    }
+                                ],
+                                [
+                                    'label' => 'IDENTIFICATION',
+                                    'format' => 'raw',
+                                    'value' => function ($model) {
+                                        if ($model->identification == null) {
+                                            return '';
+                                        } elseif ($model->identification != null) {
+
+
+                                            $basepath = Yii::$app->request->baseUrl . '/../uploads/' . $model->identification;
+                                            //$path = str_replace($basepath, '', $model->attachment);
+                                            return Html::a('<i class="fa fa-file text-green"></i>', $basepath, ['target' => '_blank', 'data-pjax' => "0"]);
+
+
+                                        }
+                                    }
+                                ],
+
+
+
+                            ],
+                        ]) ?>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<?php } ?>

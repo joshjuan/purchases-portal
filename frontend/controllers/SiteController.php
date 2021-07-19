@@ -27,7 +27,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
 use frontend\models\AttachmentsSearch;
-
+use  yii\web\NotFoundHttpException;
 /**
  * Site controller
  */
@@ -125,6 +125,23 @@ class SiteController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
+    public function actionViewDocument($id)
+    {
+        return $this->render('view_document', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+    
+    protected function findModel($id)
+    {
+        if (($model = Attachments::findOne($id)) !== null) {
+            return $model;
+        }
+        
+        throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
+    }
+    
 
     public function actionEfd()
     {
