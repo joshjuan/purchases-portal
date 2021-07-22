@@ -61,6 +61,34 @@ class Product extends \yii\db\ActiveRecord
         }
     }
 
+
+    public static function getPosPackages()
+    {
+        $items = Product::find()
+            ->where(['status' => 0])
+            ->andWhere(['category' => 7])
+            ->All();
+        if ($items != null) {
+            return $items;
+        } else {
+            return null;
+        }
+    }
+
+
+    public static function getPackagesById($id)
+    {
+        $items = Product::find()
+            ->where(['status' => 0])
+            ->andWhere(['category' => 7])
+            ->All();
+        if ($items != null) {
+            return $items;
+        } else {
+            return null;
+        }
+    }
+
     public static function getAll()
     {
         return ArrayHelper::map(Product::find()

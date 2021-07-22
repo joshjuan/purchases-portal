@@ -81,9 +81,15 @@ if (Yii::$app->user->isGuest) { ?>
 
     <?php
     if (Yii::$app->user->isGuest) {
-        echo $this->render('header.php');
-        echo $content;
-        echo $this->render('footer.php');
+        if (Yii::$app->controller->action->id =='login'){
+            echo $content;
+        }
+        else{
+            echo $this->render('header.php');
+            echo $content;
+            echo $this->render('footer.php');
+        }
+
     }
     else {
 
