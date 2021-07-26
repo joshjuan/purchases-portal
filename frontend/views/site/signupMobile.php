@@ -134,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <script>
-    
+
 </script>
 
 <!-- forn area -->
@@ -145,6 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     'enctype' => 'multipart/form-data',
                     'id' => 'regForm',
+                    'name' => 'form',
                     'class' => 'fombody',
                 ],
             ]); ?>
@@ -154,15 +155,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p> Application Form</p>
                 </header>
 
-                <div class="tab m-4">
+                <div class="tab m-4" id="prod">
                     <div class="col-md-6 mb-3 m-auto">
                         <?=
                         $form->field($appItem, 'product_id')->widget(Select2::classname(), [
                             'data' => Product::getMobilePackageAll(),
-
                             'options' => ['placeholder' => 'Select a Product ...',
                                 'required' => true,
                                 'id' => 'purpose',
+                                'name' => 'name',
                             ],
                             'pluginEvents' => [
                                 "change" => 'function() { 
@@ -182,11 +183,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
                 <!-- One "tab" for each step in the form: -->
-                <div class="tab">Basic Details
+                <div class="tab" id="c">Basic Details
                     <hr/>
                     <div class="row ">
                         <div class="col-md-4 mb-3 m-auto">
-                            <?= $form->field($customer, 'name')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeHolder' => 'Name', 'required' => true]) ?>
+                            <?= $form->field($customer, 'name')->textInput(['maxlength' => true, 'class' => 'form-control', 'placeHolder' => 'Name', 'required' => true, 'name' => 'custname']) ?>
                         </div>
 
                         <div class="col-md-4 mb-3">
@@ -381,16 +382,50 @@ $this->params['breadcrumbs'][] = $this->title;
         var x, y, i, valid = true;
         x = document.getElementsByClassName("tab");
         y = x[currentTab].getElementsByTagName("");
+        var name = document.form.name.value;
+        var custname = document.form.custname.value;
+
+        var c = document.getElementById("prod");
+        //
+        // if (name == "" && p) {
+        //     //  printError("nameErr", "Please enter your name");
+        //     alert("Please enter Product name");
+        //     valid = false;
+        // }
+
+        $('#prod').on('submit', function (e) {
+            alert(e)
+        });
+
+       
+
+       // alert(y);
+
+        // else {
+        //     var regex = /^[a-zA-Z\s]+$/;
+        //     if(regex.test(name) === false) {
+        //         alert("Please enter a valid name");
+        //         valid = false;
+        //     } else {
+        //         alert("an error as occured");
+        //         nameErr = false;
+        //         valid = false;
+        //     }
+        // }
         // A loop that checks every input field in the current tab:
+
         for (i = 0; i < y.length; i++) {
             // If a field is empty...
+           
             if (y[i].value == "") {
                 // add an "invalid" class to the field:
-                y[i].className += " invalid";
+                y[i].name += " invalid";
+
                 // and set the current valid status to false:
                 valid = false;
             }
         }
+
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
             document.getElementsByClassName("step")[currentTab].className += " finish";

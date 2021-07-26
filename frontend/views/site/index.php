@@ -62,15 +62,15 @@ $this->title = 'Web';
 
     <script type="text/javascript">
 
-        function check(a){
+        function check(a) {
             var value = a;
-            $id=value;
+            $id = value;
 
         }
 
     </script>
-    
-    
+
+
     <body>
 
     <section id="hero" class="hero d-flex align-items-center">
@@ -182,8 +182,12 @@ $this->title = 'Web';
                         <?php
                         $items = \frontend\models\Product::getAllPackages();
                         if ($items != null) {
-                            foreach ($items as $key=>$item) {
-                                $idP=$item->id
+                            foreach ($items as $key => $item) {
+                                $idP = $item->id;
+                                $tax = $item->tax_percent;
+                                $coef = ($tax / 100) + 1;
+                                $total = $coef * $item->price ;
+                                $total= number_format((float)$total, 2, '.', ',');
                                 ?>
 
                                 <div class="col-lg-3 col-md-6"
@@ -192,7 +196,7 @@ $this->title = 'Web';
                                         <span class="featured"><?= $item->product_name ?></span>
                                         <h3 style="color: #65c600;"><?= $item->product_name ?></h3>
                                         <div class="price">
-                                            <sup>TSH</sup><?= $item->price ?><span> / year</span>
+                                            <sup>TSH</sup><?= $total ?><span> / year</span>
                                         </div>
                                         <img src="theme/styles/img/pricing-starter.png" class="img-fluid"
                                              alt="">
@@ -207,7 +211,7 @@ $this->title = 'Web';
                                         <!--                                        <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">-->
                                         <!--                                            Buy Now-->
                                         <!--                                        </button>-->
-                                        <?= Html::a('<span class="btn-label">Buy Now</span>', ['site/signup-mobile'], ['class' => 'btn btn-info','id'=>'appId','onClick'=>"check($idP)",'value'=>'Result' ,'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
+                                        <?= Html::a('<span class="btn-label">Buy Now</span>', ['site/signup-mobile'], ['class' => 'btn btn-info', 'id' => 'appId', 'onClick' => "check($idP)", 'value' => 'Result', 'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
                                     </div>
                                 </div>
 
@@ -226,6 +230,12 @@ $this->title = 'Web';
                         $items = \frontend\models\Product::getPosPackages();
                         if ($items != null) {
                             foreach ($items as $item) {
+                                $tax = $item->tax_percent;
+                                $coef = ($tax / 100) + 1;
+                                $total = $coef * $item->price ;
+                                $total= number_format((float)$total, 2, '.', ',');
+
+
                                 ?>
 
 
@@ -234,7 +244,7 @@ $this->title = 'Web';
                                     <div class="box">
                                         <h3 style="color: #ff901c;"><?= $item->product_name ?></h3>
                                         <div class="price">
-                                            <sup>TSH</sup><?= $item->price ?><span> / year</span>
+                                            <sup>TSH</sup><?= $total ?><span> / year</span>
                                         </div>
                                         <img src="theme/styles/img/pricing-business.png" class="img-fluid" alt="">
                                         <ul>
@@ -268,8 +278,8 @@ $this->title = 'Web';
 
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
 
 
         <div class="modal-dialog" role="document">
