@@ -14,7 +14,10 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-        ],
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+    ],
         'user' => [
             'identityClass' => 'frontend\models\User',
             'enableAutoLogin' => false,
@@ -37,6 +40,7 @@ return [
                 ],
             ],
         ],
+
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -50,6 +54,7 @@ return [
         */
 
     ],
+
     'modules' => [
         'gridview'=> [
             'class'=>'\kartik\grid\Module',
@@ -61,7 +66,7 @@ return [
         'rules' => [
             [
                 'allow' => true,
-                'actions' => ['login', 'index', 'signup', 'signup-mobile','efd'],
+                'actions' => ['login', 'index', 'signup', 'signup-mobile','efd','data'],
             ],
             [
                 'allow' => true,

@@ -25,6 +25,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\Response;
 use yii\web\UploadedFile;
 use frontend\models\AttachmentsSearch;
 use  yii\web\NotFoundHttpException;
@@ -256,25 +257,29 @@ class SiteController extends Controller
 
             $customer->status = 0;
             $customer->in_contract = 0;
-            $customer->branch_id = 10;
+            $customer->branch_id = 27;
             $customer->maker_id = 'ONLINE REGISTRATION';
             $customer->maker_time = date('Y-m-d H:i:s');
 
             if ($customer->save(false)) {
 
-                $user->full_name=$customer->name;
-                $user->username =$customer->tin_number;
-                $user->email =$customer->email;
-                $user->branch_id =$customer->branch_id;
-                $user->created_at =date('YmdHis');
-                $user->updated_at =date('YmdHis');
-                $user->user_type =2;
-                $user->emp_id =0;
-                $user->role ='Customer';
-                $user->password_hash=Yii::$app->security->generatePasswordHash($user->password);
-                $user->auth_key= Yii::$app->security->generateRandomString() . '_' . time();
-                $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-                $user->save(false);
+                $checkUser=User::findOne(['username'=>$customer->tin_number]);
+                if (empty($checkUser)){
+                    $user->full_name=$customer->name;
+                    $user->username =$customer->tin_number;
+                    $user->email =$customer->email;
+                    $user->branch_id =$customer->branch_id;
+                    $user->created_at =date('YmdHis');
+                    $user->updated_at =date('YmdHis');
+                    $user->user_type =2;
+                    $user->emp_id =0;
+                    $user->customer_id =$customer->id;
+                    $user->role ='Customer';
+                    $user->password_hash=Yii::$app->security->generatePasswordHash($user->password);
+                    $user->auth_key= Yii::$app->security->generateRandomString() . '_' . time();
+                    $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+                    $user->save(false);
+                }
 
                 $attachment->business = UploadedFile::getInstance($attachment, 'business');
                 $attachment->identity = UploadedFile::getInstance($attachment, 'identity');
@@ -370,27 +375,33 @@ class SiteController extends Controller
         if ($customer->load(Yii::$app->request->post()) && $appItem->load(Yii::$app->request->post()) &&
             $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
 
+
             $customer->status = 0;
             $customer->in_contract = 0;
-            $customer->branch_id = 10;
+            $customer->branch_id = 27;
             $customer->maker_id = 'ONLINE REGISTRATION';
             $customer->maker_time = date('Y-m-d H:i:s');
 
+
             if ($customer->save(false)) {
 
-                $user->full_name=$customer->name;
-                $user->username =$customer->tin_number;
-                $user->email =$customer->email;
-                $user->branch_id =$customer->branch_id;
-                $user->created_at =date('YmdHis');
-                $user->updated_at =date('YmdHis');
-                $user->user_type =2;
-                $user->emp_id =0;
-                $user->role ='Customer';
-                $user->password_hash=Yii::$app->security->generatePasswordHash($user->password);
-                $user->auth_key= Yii::$app->security->generateRandomString() . '_' . time();
-                $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
-                $user->save(false);
+                $checkUser=User::findOne(['username'=>$customer->tin_number]);
+               if (empty($checkUser)) {
+                    $user->full_name = $customer->name;
+                    $user->username = $customer->tin_number;
+                    $user->email = $customer->email;
+                    $user->branch_id = $customer->branch_id;
+                    $user->created_at = date('YmdHis');
+                    $user->updated_at = date('YmdHis');
+                    $user->user_type = 2;
+                    $user->emp_id = 0;
+                    $user->role = 'Customer';
+                    $user->password_hash = Yii::$app->security->generatePasswordHash($user->password);
+                    $user->auth_key = Yii::$app->security->generateRandomString() . '_' . time();
+                    $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+                    $user->save(false);
+                }
+
 
                 $attachment->business = UploadedFile::getInstance($attachment, 'business');
                 $attachment->identity = UploadedFile::getInstance($attachment, 'identity');
@@ -418,12 +429,12 @@ class SiteController extends Controller
                 $attachment->customer_id = $customer->id;
                 $attachment->created_at = date('Y-m-d H:i:s');
                 $attachment->created_by = $customer->maker_id;
-                $attachment->branch_id = 10;
+                $attachment->branch_id = 27;
                 if ($attachment->save(false)) {
                     $app = new Application();
                     $app->status = Application::SUBMITTED;
                     $app->maker_id = $customer->maker_id;
-                    $app->branch_id = 10;
+                    $app->branch_id = 27;
                     $app->customer_id = $customer->id;
                     $app->maker_time = date('Y-m-d:H:i:s');
                     $app->auth_status = 'U';
@@ -485,6 +496,37 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionData($id)
+
+    {
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+       // return json_encode(["test"=> 1]);
+        return ["test"=> 1];
+        //$data=  Yii::$app->response->data = Product::findAll(['type_id'=>1]);
+       // return json_encode($data);
+//        $request = Yii::$app->request;
+//
+//        $post    = $request->post();
+//
+//        if ($request->isAjax && !empty($post['id'])) {
+//
+//            Yii::$app->response->format = Response::FORMAT_JSON;
+//            $get=Product::findOne(['id'=>$post['id']]);
+//
+//            $all= [
+//                'status' => 'success',
+//                'data'=>$get,
+//            ];
+//            return json_encode($all);
+//
+//        }
+
+    }
+
 
     /**
      * Requests password reset.

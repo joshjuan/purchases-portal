@@ -21,6 +21,7 @@ use Yii;
  * @property int|null $agent_id
  * @property string|null $role
  * @property int $user_type
+ * @property int $customer_id
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -45,16 +46,16 @@ class User extends \common\models\User
         return [
          //   [['full_name', 'username', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
             [['password','repassword'], 'required'],
+            ['repassword', 'compare', 'compareAttribute' => 'password'],
             [['user_signature'], 'string'],
-            [['branch_id', 'emp_id', 'agent_id', 'user_type', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['branch_id', 'emp_id', 'agent_id', 'user_type', 'status', 'created_at', 'updated_at','customer_id'], 'integer'],
             [['full_name', 'role'], 'string', 'max' => 200],
             [['username', 'email', 'password_hash', 'password_reset_token', 'PIN'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['password_reset_token'], 'unique'],
-
             [['password'], 'string', 'min' => 6, 'max' => 30],
-            ['repassword', 'compare', 'compareAttribute' => 'password'],
+
         ];
     }
 

@@ -68,7 +68,7 @@ class Attachments extends \yii\db\ActiveRecord
             'identification' => 'Identification',
             'tax_identification' => 'Tax Identification',
             'business' => 'Business License',
-            'identity' => 'Identification(Driving License/NIDA/Voter ID)',
+            'identity' => 'Identity(Driving License/NIDA/Voter ID)',
             'uin' => 'Uin',
             'tax_form' => 'TIN certificate',
             'representative_id' => 'Representative ID',

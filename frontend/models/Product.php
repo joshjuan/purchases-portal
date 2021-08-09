@@ -40,6 +40,7 @@ class Product extends \yii\db\ActiveRecord
         $items = Product::find()
             ->where(['status' => 0])
             ->andWhere(['type_id' => 1])
+            ->orderBy(['price' => SORT_ASC])
             ->All();
         if ($items != null) {
             return $items;
@@ -53,6 +54,7 @@ class Product extends \yii\db\ActiveRecord
         $items = Product::find()
             ->where(['status' => 0])
             ->andWhere(['category' => 6])
+            ->orderBy(['price' => SORT_ASC])
             ->All();
         if ($items != null) {
             return $items;
@@ -67,6 +69,7 @@ class Product extends \yii\db\ActiveRecord
         $items = Product::find()
             ->where(['status' => 0])
             ->andWhere(['category' => 7])
+            ->orderBy(['price' => SORT_ASC])
             ->All();
         if ($items != null) {
             return $items;
@@ -81,6 +84,7 @@ class Product extends \yii\db\ActiveRecord
         $items = Product::find()
             ->where(['status' => 0])
             ->andWhere(['category' => 7])
+            ->orderBy(['price' => SORT_ASC])
             ->All();
         if ($items != null) {
             return $items;

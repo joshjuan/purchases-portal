@@ -4,6 +4,8 @@
 
 use frontend\models\Application;
 use frontend\models\ApplicationItem;
+use frontend\models\PackagesItems;
+use frontend\models\Product;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -63,16 +65,25 @@ $this->title = 'Web';
     <script type="text/javascript">
 
         function check(a) {
-            var value = a;
-            $id = value;
+            var val = a;
+           // alert(val);
+
+            $.get("index.php?r=site%2Fdata&id=", val, function (data) {
+                if (data !== null) {
+                    var get = $.parseJSON(data);
+                    alert(get);
+                }
+                else{
+                    alert('We\'re sorry but we couldn\'t load the the location data!');
+                }
+
+            });
+
 
         }
 
     </script>
-
-
     <body>
-
     <section id="hero" class="hero d-flex align-items-center">
 
         <div class="container">
@@ -180,38 +191,49 @@ $this->title = 'Web';
                     <div class="row gy-4" data-aos="fade-left">
 
                         <?php
-                        $items = \frontend\models\Product::getAllPackages();
+                        $items = Product::getAllPackages();
+
                         if ($items != null) {
                             foreach ($items as $key => $item) {
+
                                 $idP = $item->id;
                                 $tax = $item->tax_percent;
                                 $coef = ($tax / 100) + 1;
-                                $total = $coef * $item->price ;
-                                $total= number_format((float)$total, 2, '.', ',');
+                                $total = $coef * $item->price;
+                                $total = number_format((float)$total, 2, '.', ',');
                                 ?>
 
-                                <div class="col-lg-3 col-md-6"
+                                <div class="col-lg-4 col-md-6"
                                      data-aos="zoom-in" data-aos-delay="200">
                                     <div class="box">
-                                        <span class="featured"><?= $item->product_name ?></span>
+                                        <span class="featured"><?= $item->id ?></span>
                                         <h3 style="color: #65c600;"><?= $item->product_name ?></h3>
                                         <div class="price">
                                             <sup>TSH</sup><?= $total ?><span> / year</span>
                                         </div>
-                                        <img src="theme/styles/img/pricing-starter.png" class="img-fluid"
-                                             alt="">
                                         <ul>
-                                            <li><i class="bi bi-check2"></i>Sales and receipt printing</li>
-                                            <li><i class="bi bi-check2"></i>Barcode scanning</li>
-                                            <li><i class="bi bi-check2"></i>Track and manage inventory</li>
-                                            <li><i class="bi bi-check2"></i>Manage Single Store</li>
-                                            <li><i class="bi bi-check2"></i>Single User</li>
+                                            <?php
+                                            $productItems = PackagesItems::getAll($item->id);
+                                            $i = 0;
+                                            $productItems = array_slice($productItems, 0, 5);
+                                            foreach ($productItems as $keyItem => $productItem) {
+
+                                                $name = $productItem->name;
+
+
+                                                ?>
+                                                <li><i class="bi bi-check2"></i> <?= $name ?></li>
+                                            <?php } ?>
+                                            <!--                                            <li><i class="bi bi-check2"></i>Barcode scanning</li>-->
+                                            <!--                                            <li><i class="bi bi-check2"></i>Track and manage inventory</li>-->
+                                            <!--                                            <li><i class="bi bi-check2"></i>Manage Single Store</li>-->
+                                            <!--                                            <li><i class="bi bi-check2"></i>Single User</li>-->
                                         </ul>
                                         <!-- Button trigger modal -->
                                         <!--                                        <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">-->
                                         <!--                                            Buy Now-->
                                         <!--                                        </button>-->
-                                        <?= Html::a('<span class="btn-label">Buy Now</span>', ['site/signup-mobile'], ['class' => 'btn btn-info', 'id' => 'appId', 'onClick' => "check($idP)", 'value' => 'Result', 'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
+                                        <?= Html::a('<span class="btn-label">Buy Now</span>', ['site/signup-mobile'], ['class' => 'btn btn-buy', 'id' => 'pin', 'onClick' => "check($idP)", 'value' => 'Result', 'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
                                     </div>
                                 </div>
 
@@ -220,20 +242,19 @@ $this->title = 'Web';
                         }
 
                         ?>
-
                     </div>
                 </div>
                 <div class="tab-pane" id="yellow">
 
                     <div class="row gy-4" data-aos="fade-left">
                         <?php
-                        $items = \frontend\models\Product::getPosPackages();
+                        $items = Product::getPosPackages();
                         if ($items != null) {
                             foreach ($items as $item) {
                                 $tax = $item->tax_percent;
                                 $coef = ($tax / 100) + 1;
-                                $total = $coef * $item->price ;
-                                $total= number_format((float)$total, 2, '.', ',');
+                                $total = $coef * $item->price;
+                                $total = number_format((float)$total, 2, '.', ',');
 
 
                                 ?>
@@ -246,7 +267,7 @@ $this->title = 'Web';
                                         <div class="price">
                                             <sup>TSH</sup><?= $total ?><span> / year</span>
                                         </div>
-                                        <img src="theme/styles/img/pricing-business.png" class="img-fluid" alt="">
+
                                         <ul>
                                             <li><i class="bi bi-check2"></i>Sales and receipt printing</li>
                                             <li><i class="bi bi-check2"></i>Barcode scanning</li>
@@ -255,7 +276,7 @@ $this->title = 'Web';
                                             <li><i class="bi bi-check2"></i>Single User</li>
                                         </ul>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-buy" data-toggle="modal"
+                                        <button type="button" id="buy" class="btn btn-buy" data-toggle="modal"
                                                 data-target="#exampleModalLong">Buy Now
                                         </button>
                                     </div>
@@ -475,59 +496,42 @@ $this->title = 'Web';
     <a href="#"
        class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="assets/vendor/aos/aos.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/purecounter/purecounter.js"></script>
-    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script
-            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Calling Slick Library -->
-    <script
-            src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script>
-        TSH("#carousel-slider").slick({
-            arrows: false,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2500,
-            mobileFirst: true
-        });
-    </script>
-    <script>
-        TSH(document).ready(function () {
-            TSH('.customer-logos').slick({
-                slidesToShow: 6,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 1500,
-                arrows: false,
-                dots: false,
-                pauseOnHover: false,
-                responsive: [{
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 4
-                    }
-                }, {
-                    breakpoint: 520,
-                    settings: {
-                        slidesToShow: 3
-                    }
-                }]
-            });
-        });
-    </script>
+
+<!--   <script>-->
+<!--        TSH("#carousel-slider").slick({-->
+<!--            arrows: false,-->
+<!--            infinite: true,-->
+<!--            slidesToShow: 1,-->
+<!--            slidesToScroll: 1,-->
+<!--            autoplay: true,-->
+<!--            autoplaySpeed: 2500,-->
+<!--            mobileFirst: true-->
+<!--        });-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        TSH(document).ready(function () {-->
+<!--            TSH('.customer-logos').slick({-->
+<!--                slidesToShow: 6,-->
+<!--                slidesToScroll: 1,-->
+<!--                autoplay: true,-->
+<!--                autoplaySpeed: 1500,-->
+<!--                arrows: false,-->
+<!--                dots: false,-->
+<!--                pauseOnHover: false,-->
+<!--                responsive: [{-->
+<!--                    breakpoint: 768,-->
+<!--                    settings: {-->
+<!--                        slidesToShow: 4-->
+<!--                    }-->
+<!--                }, {-->
+<!--                    breakpoint: 520,-->
+<!--                    settings: {-->
+<!--                        slidesToShow: 3-->
+<!--                    }-->
+<!--                }]-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
     </body>
 
     </html>
@@ -557,14 +561,14 @@ $this->title = 'Web';
             <!-- end pageheader -->
             <!-- ============================================================== -->
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card border-3 border-top border-top-primary">
                         <div class="card-body">
                             <h5 class="text-muted">Payment-Status</h5>
                             <div class="metric-value d-inline-block">
                                 <h3 class="text-muted">
                                     UNPAID-
-                                    <?= Application::OnProgress() ?>
+                                    <?= Application::Unpaid() ?>
                                 </h3>
                             </div>
                             <div
@@ -576,12 +580,30 @@ $this->title = 'Web';
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="card border-3 border-top border-top-primary">
+                        <div class="card-body">
+                            <h5 class="text-muted">Payment-Status</h5>
+                            <div class="metric-value d-inline-block">
+                                <h3 class="text-muted">PAID-
+                                    <?= Application::Paid() ?>
+                                </h3>
+                            </div>
+                            <div
+                                    class="metric-label d-inline-block float-right text-success font-weight-bold">
+							<span
+                                    class="icon-circle-small icon-box-xs text-success bg-success-light"><i
+                                        class="fa fa-fw fa-check"></i></span><span class="ml-1"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="card border-3 border-top border-top-primary">
                         <div class="card-body">
                             <h5 class="text-muted">Document Checkup</h5>
                             <div class="metric-value d-inline-block">
-                                <h3 class="text-muted">ONPROGRESS-
+                                <h3 class="text-muted">FISCAL PROGRESS-
                                     <?= Application::OnProgress() ?>
                                 </h3>
                             </div>
@@ -595,13 +617,13 @@ $this->title = 'Web';
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card border-3 border-top border-top-primary">
                         <div class="card-body">
                             <h5 class="text-muted">Application-Status</h5>
                             <div class="metric-value d-inline-block">
                                 <h3 class="text-muted">COMPLETED-
-                                    <?= Application::OnProgress() ?>
+                                    <?= Application::Completed() ?>
                                 </h3>
                             </div>
                             <div
@@ -613,6 +635,7 @@ $this->title = 'Web';
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="row">

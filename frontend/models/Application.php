@@ -71,11 +71,42 @@ class Application extends \yii\db\ActiveRecord
         return 'tbl_application';
     }
 
-    
+
+    public static function Unpaid()
+    {
+        $model = Application::find()
+        ->where(['in','status',[Application::SUBMITTED,Application::APPLIED]])
+            ->andWhere(['customer_id'=>\Yii::$app->user->identity->customer_id])
+            ->all();
+        if (count($model) > 0) {
+            return count($model);
+        } else {
+            return 0;
+        }
+    }
     
     public static function OnProgress()
     {
-        $model = Application::findAll(['status' =>0,'customer_id'=>\Yii::$app->user->identity->getId()]);
+//        $model = Application::find()
+//        ->where(['in','status',[Application::SUBMITTED,Application::APPLIED,Application::VERIFIED]])
+//            ->andWhere(['customer_id'=>\Yii::$app->user->identity->customer_id])
+//            ->all();
+//        if (count($model) > 0) {
+//            return count($model);
+//        } else {
+//            return 0;
+//        }
+
+        $loginUser=Yii::$app->user->identity->customer_id;
+        $applications=Application::find()
+            ->select(['id'])
+            ->where(['customer_id'=>$loginUser])
+            ->asArray();
+           // ->all();
+        $model = ApplicationUin::find()
+            ->where(['!=','status',7])
+            ->andWhere(['in','app_id',$applications])
+            ->all();
         if (count($model) > 0) {
             return count($model);
         } else {
@@ -85,7 +116,7 @@ class Application extends \yii\db\ActiveRecord
     }
     public static function Paid()
     {
-        $model = Application::findAll(['status' =>1,'fiscal_code'=>1,'customer_id'=>\Yii::$app->user->identity->getId()]);
+        $model = Application::findAll(['status' =>1,'fiscal_code'=>1,'customer_id'=>\Yii::$app->user->identity->customer_id]);
         if (count($model) > 0) {
             return count($model);
         } else {
@@ -95,7 +126,15 @@ class Application extends \yii\db\ActiveRecord
     }
     public static function Completed()
     {
-        $model = ApplicationUin::findAll(['status' =>7]);
+        $loginUser=Yii::$app->user->identity->customer_id;
+        $applications=Application::find()
+            ->select('id')
+            ->where(['customer_id'=>$loginUser])
+            ->asArray();
+        $model = ApplicationUin::find()
+        ->where(['status' =>7])
+            ->andWhere(['in','app_id',$applications])
+            ->all();
         if (count($model) > 0) {
             return count($model);
         } else {

@@ -43,7 +43,7 @@ class ApplicationSearch extends Application
     {
         if (!Yii::$app->user->isGuest) {
             $query = Application::find();
-            $query->where(['customer_id'=>Yii::$app->user->identity->getId()]);
+            $query->where(['customer_id'=>Yii::$app->user->identity->customer_id]);
 
             // add conditions that should always apply here
 

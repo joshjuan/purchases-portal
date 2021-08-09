@@ -61,11 +61,13 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tin_number', 'street', 'tax_regional','name','phone_number','tax_regional','business_type','applicant_title'], 'required'],
+            [['tin_number', 'street','name','phone_number','tax_regional','business_type','applicant_title','address'], 'required'],
+         //   [['tin_number', 'street','name'], 'required'],
             [['tin_number'], 'unique'],
             [['tin_number', 'branch_id', 'status', 'customer_type', 'in_contract'], 'integer'],
             [['email'], 'string'],
             ['email', 'email'],
+            [['tin_number'], 'string', 'min' => 9,'max'=>9],
             [['maker_time'], 'safe'],
             [['name', 'phone_number', 'phone_number2', 'vrn', 'street', 'plot_no', 'house_no', 'applicant_title', 'business_type', 'address', 'tax_regional', 'maker_id', 'representative_name'], 'string', 'max' => 200],
         ];
