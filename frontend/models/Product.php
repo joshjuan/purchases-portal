@@ -63,6 +63,20 @@ class Product extends \yii\db\ActiveRecord
         }
     }
 
+    public static function getMobilePackages()
+    {
+        $items = Product::find()
+            ->where(['status' => 0])
+            ->andWhere(['category' => 6])
+            ->orderBy(['price' => SORT_ASC])
+            ->All();
+        if ($items != null) {
+            return $items;
+        } else {
+            return null;
+        }
+    }
+
 
     public static function getPosPackages()
     {

@@ -6,6 +6,7 @@
 /* @var $model \frontend\models\SignupForm */
 
 use frontend\models\Product;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
 use yii\helpers\Url;
@@ -163,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="formRegion">
             <header class="section-header">
-                <p> Application Form</p>
+                <p>VFD Application Form</p>
             </header>
 
             <div class="stepwizard">
@@ -197,8 +198,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="panel-body">
                         <div class="form-group mt-3">
-
                             <?=
+                            $form->field($appItem, 'product_id')->widget(Select2::classname(), [
+                                'disabled' => true,
+                                'data' => Product::getMobilePackageAll(),
+                            ]);
+                            ?>
+
+                            <?php
                             $form->field($appItem, 'product_id')->widget(Select2::classname(), [
                                 'data' => Product::getMobilePackageAll(),
 
@@ -221,6 +228,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                             ?>
                         </div>
+
 
                         <button class="btn btn-color nextBtn pull-right mt-5" type="button" >Next</button>
                     </div>
@@ -267,6 +275,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
 
+                        <button class="btn btn-info prevBtn pull-right" type="button">Previous</button>
                         <button class="btn btn-color nextBtn pull-right" type="button">Next</button>
                     </div>
                 </div>
@@ -324,8 +333,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </form>
         </div>
     </div>
-    <?php ActiveForm::end(); ?>
 
+    <?php ActiveForm::end(); ?>
 </section>
 
 <!-- End Footer -->
@@ -338,11 +347,17 @@ $this->params['breadcrumbs'][] = $this->title;
 <!-- Calling Slick Library -->
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script>
+
+
+
+
+
     $(document).ready(function () {
 
         var navListItems = $('div.setup-panel div a'),
             allWells = $('.setup-content'),
             allNextBtn = $('.nextBtn');
+            allPrevBtn = $('.prevBtn');
 
         allWells.hide();
 
@@ -379,6 +394,20 @@ $this->params['breadcrumbs'][] = $this->title;
         });
 
         $('div.setup-panel div a.btn-success').trigger('click');
+
+
+
+        allPrevBtn.click(function(){
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
+            prevStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+
+        $('div.setup-panel div a.btn-info').trigger('click');
+
+
     });
 </script>
 

@@ -71,16 +71,18 @@ $this->title = 'Web';
         function refreshPage(){
             window.location.reload(true);
         };
-        
+
         function check(a) {
             var val = a;
+            var val = a;
+
             $.get("index.php?r=site%2Fdata&id=", {id: val}, function (data) {
                 if (data !== null) {
                     var obj = JSON.parse(data);
                     var Plan = obj.plan;
                     document.getElementById('plan').textContent = Plan;
-                  //  document.getElementById("productID").value=val;
-                   // document.getElementById("productID").value=val;
+                    document.getElementById("productID").value=val;
+                    document.getElementById("productID").value=val;
 
                     var totaldiv = document.getElementsByClassName('text-left')[0].children.length;
 
@@ -96,18 +98,31 @@ $this->title = 'Web';
         }
 
 
-        function send(a) {
 
+        function send(a) {
             var val = a;
-            $.post("index.php?r=site%2Fsignup-mobile", {id: val}, function (data) {
+            $.post("index.php?r=site%2Fsignup-mobile&id=", {id: val}, function (data) {
+                alert(data);
                 if (data !== null) {
+                    alert(val);
                     var obj = JSON.parse(data);
-                        alert(obj)
+                    var Plan = obj.plan;
+                    document.getElementById('plan').textContent = Plan;
+                    document.getElementById("productID").value=val;
+                    document.getElementById("productID").value=val;
+
+                    var totaldiv = document.getElementsByClassName('text-left')[0].children.length;
+
+                    for(var i =0;i<totaldiv;i++){
+                        document.getElementsByClassName('text-left')[0].children[i].innerHTML = obj['items'][i].name;
+                    }
+
                 } else {
                     alert('No Package Items Found');
                 }
 
             });
+
         }
 
 
@@ -265,7 +280,7 @@ $this->title = 'Web';
                                         <!--                                        <button type="button" class="btn btn-buy" data-toggle="modal" data-target="#exampleModalLong">-->
                                         <!--                                            Buy Now-->
                                         <!--                                        </button>-->
-                                        <?= Html::a('<span class="btn-label">Buy Now</span>', [''], ['class' => 'btn btn-buy', 'onClick' => "check($idP)", 'value' => 'Result', 'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
+                                        <?= Html::a('<span class="btn-label">Buy Now</span>', [''], ['class' => 'btn btn-buy', 'id' => 'pin', 'onClick' => "check($idP)", 'value' => 'Result', 'data-toggle' => "modal", 'data-target' => "#exampleModalLong"]) ?>
                                     </div>
                                 </div>
 
@@ -330,12 +345,15 @@ $this->title = 'Web';
     </section>
 
 
-
+    <?php $form = ActiveForm::begin([
+        //  'action' => ['signup-mobile'],
+        'method' => 'post',
+    ]); ?>
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
          aria-hidden="true">
 
-
+        <?= $form->field($model, 'product_name')->textInput(['id'=>'productID']) ?>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -366,33 +384,34 @@ $this->title = 'Web';
 
 
 
-                        <!--                        <li><i class="bi bi-check2"></i>Barcode scanning</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Track and manage inventory</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Unlimited products</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Manage customer data</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>-reports</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Multi-users (Two (2) users)</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Manage single store/branch (One-->
-                        <!--                            store)-->
-                        <!--                        </li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
-                        <!--                        <li><i class="bi bi-check2"></i><b> Installation & Configuration-->
-                        <!--                                fee 200,000/TSH </b></li>-->
-                        <!--                        <li><i class="bi bi-check2"></i><b>#First Year Free</b></li>-->
-                        <!--                        <li><i class="bi bi-check2"></i><b>Second Year Onward 60,000/TSH-->
-                        <!--                                per year</b></li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Barcode scanning</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Track and manage inventory</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Unlimited products</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Manage customer data</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>-reports</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Multi-users (Two (2) users)</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Manage single store/branch (One-->
+                            <!--                            store)-->
+                            <!--                        </li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i>Basic reporting</li>-->
+                            <!--                        <li><i class="bi bi-check2"></i><b> Installation & Configuration-->
+                            <!--                                fee 200,000/TSH </b></li>-->
+                            <!--                        <li><i class="bi bi-check2"></i><b>#First Year Free</b></li>-->
+                            <!--                        <li><i class="bi bi-check2"></i><b>Second Year Onward 60,000/TSH-->
+                            <!--                                per year</b></li>-->
                     </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal" onClick="refreshPage()">Close</button>
-                    <?= Html::a('<span class="btn-label">Buy</span>', ['site/signup-mobile',], ['class' => 'btn btn-primary','onClick' => "send($idP)",'id'=>'submit']) ?>
+                    <?php Html::submitButton(Yii::t('yii', 'Buy'), ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a('<span class="btn-label">Buy</span>', ['site/signup-mobile'], ['class' => 'btn btn-primary','onClick' => "send($idP)"]) ?>
                 </div>
             </div>
         </div>
     </div>
-
+    <?php ActiveForm::end(); ?>
     <!-- End Pricing Section -->
 
     <!-- ======= F.A.Q Section ======= -->
@@ -544,7 +563,7 @@ $this->title = 'Web';
     <!-- End Footer -->
     <a href="#"
        class="back-to-top d-flex align-items-center justify-content-center"><i
-                class="bi bi-arrow-up-short"></i></a>
+            class="bi bi-arrow-up-short"></i></a>
 
     <!--   <script>-->
     <!--        TSH("#carousel-slider").slick({-->
@@ -621,10 +640,10 @@ $this->title = 'Web';
                                 </h3>
                             </div>
                             <div
-                                    class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                class="metric-label d-inline-block float-right text-success font-weight-bold">
 							<span
-                                    class="icon-circle-small icon-box-xs text-danger bg-danger-light"><i
-                                        class="fa fa-fw fa-stop"></i></span><span class="ml-1"></span>
+                                class="icon-circle-small icon-box-xs text-danger bg-danger-light"><i
+                                    class="fa fa-fw fa-stop"></i></span><span class="ml-1"></span>
                             </div>
                         </div>
                     </div>
@@ -639,10 +658,10 @@ $this->title = 'Web';
                                 </h3>
                             </div>
                             <div
-                                    class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                class="metric-label d-inline-block float-right text-success font-weight-bold">
 							<span
-                                    class="icon-circle-small icon-box-xs text-success bg-success-light"><i
-                                        class="fa fa-fw fa-check"></i></span><span class="ml-1"></span>
+                                class="icon-circle-small icon-box-xs text-success bg-success-light"><i
+                                    class="fa fa-fw fa-check"></i></span><span class="ml-1"></span>
                             </div>
                         </div>
                     </div>
@@ -657,10 +676,10 @@ $this->title = 'Web';
                                 </h3>
                             </div>
                             <div
-                                    class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                class="metric-label d-inline-block float-right text-success font-weight-bold">
 							<span
-                                    class="icon-circle-small icon-box-xs text-info bg-info-light"><i
-                                        class="fa fa-fw fa-step-forward"></i></span><span class="ml-1"></span>
+                                class="icon-circle-small icon-box-xs text-info bg-info-light"><i
+                                    class="fa fa-fw fa-step-forward"></i></span><span class="ml-1"></span>
                             </div>
                         </div>
                     </div>
@@ -676,10 +695,10 @@ $this->title = 'Web';
                                 </h3>
                             </div>
                             <div
-                                    class="metric-label d-inline-block float-right text-success font-weight-bold">
+                                class="metric-label d-inline-block float-right text-success font-weight-bold">
 							<span
-                                    class="icon-circle-small icon-box-xs text-success bg-success-light"><i
-                                        class="fa fa-fw fa-check"></i></span><span class="ml-1"></span>
+                                class="icon-circle-small icon-box-xs text-success bg-success-light"><i
+                                    class="fa fa-fw fa-check"></i></span><span class="ml-1"></span>
                             </div>
                         </div>
                     </div>

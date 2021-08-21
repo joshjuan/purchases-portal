@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 
@@ -7,6 +8,7 @@ use frontend\models\ApplicationItem;
 use frontend\models\ApplicationSearch;
 use frontend\models\Attachments;
 use frontend\models\Customer;
+use frontend\models\PackagesItems;
 use frontend\models\Product;
 use frontend\models\ProductSearch;
 use frontend\models\Reference;
@@ -16,6 +18,7 @@ use frontend\models\VerifyEmailForm;
 
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\UserException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -29,6 +32,7 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 use frontend\models\AttachmentsSearch;
 use  yii\web\NotFoundHttpException;
+
 /**
  * Site controller
  */
@@ -93,16 +97,32 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        //     if (Yii::$app->user->isGuest) {
+        //   $model = new Product();
         $searchModel = new ApplicationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            //  'model' => $model,
         ]);
+        //       }
+//        else{
+//            $model=new Product();
+//            if ($model->load(Yii::$app->request->post())) {
+//                print_r($model->product_name);
+//
+//            }
+//            return $this->render('signup-mobile', [
+//                'model' => $model,
+//            ]);
+//
+//
+//        }
+
 
     }
-
 
 
     public function actionDashboard()
@@ -115,7 +135,7 @@ class SiteController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
     public function actionDocument()
     {
         $searchModel = new AttachmentsSearch();
@@ -126,23 +146,23 @@ class SiteController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
     public function actionViewDocument($id)
     {
         return $this->render('view_document', [
             'model' => $this->findModel($id),
         ]);
     }
-    
+
     protected function findModel($id)
     {
         if (($model = Attachments::findOne($id)) !== null) {
             return $model;
         }
-        
+
         throw new NotFoundHttpException(Yii::t('yii', 'The requested page does not exist.'));
     }
-    
+
 
     public function actionEfd()
     {
@@ -245,7 +265,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $product = new Product();
-      //  $app = new Application();
+        //  $app = new Application();
         $appItem = new ApplicationItem();
         $customer = new Customer();
         $attachment = new Attachments();
@@ -253,7 +273,7 @@ class SiteController extends Controller
         //  $user->signup()
 
         if ($customer->load(Yii::$app->request->post()) && $appItem->load(Yii::$app->request->post()) &&
-            $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
+            $attachment->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
 
             $customer->status = 0;
             $customer->in_contract = 0;
@@ -263,20 +283,20 @@ class SiteController extends Controller
 
             if ($customer->save(false)) {
 
-                $checkUser=User::findOne(['username'=>$customer->tin_number]);
-                if (empty($checkUser)){
-                    $user->full_name=$customer->name;
-                    $user->username =$customer->tin_number;
-                    $user->email =$customer->email;
-                    $user->branch_id =$customer->branch_id;
-                    $user->created_at =date('YmdHis');
-                    $user->updated_at =date('YmdHis');
-                    $user->user_type =2;
-                    $user->emp_id =0;
-                    $user->customer_id =$customer->id;
-                    $user->role ='Customer';
-                    $user->password_hash=Yii::$app->security->generatePasswordHash($user->password);
-                    $user->auth_key= Yii::$app->security->generateRandomString() . '_' . time();
+                $checkUser = User::findOne(['username' => $customer->tin_number]);
+                if (empty($checkUser)) {
+                    $user->full_name = $customer->name;
+                    $user->username = $customer->tin_number;
+                    $user->email = $customer->email;
+                    $user->branch_id = $customer->branch_id;
+                    $user->created_at = date('YmdHis');
+                    $user->updated_at = date('YmdHis');
+                    $user->user_type = 2;
+                    $user->emp_id = 0;
+                    $user->customer_id = $customer->id;
+                    $user->role = 'Customer';
+                    $user->password_hash = Yii::$app->security->generatePasswordHash($user->password);
+                    $user->auth_key = Yii::$app->security->generateRandomString() . '_' . time();
                     $user->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
                     $user->save(false);
                 }
@@ -319,26 +339,26 @@ class SiteController extends Controller
                     $app->send_tra = 0;
                     $app->app_dt = date('Y-m-d H:i:s');
                     $app->app_ref_number = Reference::findLast();
-                   if ( $app->save(false)){
+                    if ($app->save(false)) {
 
-                       $newItem = new ApplicationItem();
-                       $newItem->product_id=$appItem->product_id;
-                       $newItem->app_id = $app->id;
-                       $newItem->qty = 1;
-                       $newItem->price = Product::getPrice($appItem->product_id); //gets product price
+                        $newItem = new ApplicationItem();
+                        $newItem->product_id = $appItem->product_id;
+                        $newItem->app_id = $app->id;
+                        $newItem->qty = 1;
+                        $newItem->price = Product::getPrice($appItem->product_id); //gets product price
 
-                       $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
-                       $total = $TAX_COEF * $newItem->price * $newItem->qty;
+                        $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
+                        $total = $TAX_COEF * $newItem->price * $newItem->qty;
 
-                       $taxAmount = $total - ($newItem->price * $newItem->qty);
+                        $taxAmount = $total - ($newItem->price * $newItem->qty);
 
-                       $newItem->total = $total;
-                       $newItem->tax_amount = $taxAmount;
-                       $newItem->app_status = Application::SUBMITTED;
-                       $newItem->maker_id =$customer->maker_id;
-                       $newItem->maker_time = date('Y-m-d H:i:s');
-                       $newItem->save();
-                   }
+                        $newItem->total = $total;
+                        $newItem->tax_amount = $taxAmount;
+                        $newItem->app_status = Application::SUBMITTED;
+                        $newItem->maker_id = $customer->maker_id;
+                        $newItem->maker_time = date('Y-m-d H:i:s');
+                        $newItem->save();
+                    }
 
                     Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
                     return $this->redirect(['site/login']);
@@ -349,7 +369,7 @@ class SiteController extends Controller
             //  print_r($customer->tin_number);
             // die;
 
-        //   Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            //   Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
 
@@ -362,18 +382,142 @@ class SiteController extends Controller
         ]);
     }
 
+
+    public function actionData($id)
+
+    {
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+
+        $data = Yii::$app->response->data = PackagesItems::find()
+            ->where(['product_id' => intval($id)])
+            ->asArray()
+            ->all();
+        $plan = Product::findOne(['id' => $id]);
+
+        $all = [
+            'plan' => $plan->product_name,
+            'items' => $data,
+        ];
+
+        return json_encode($all);
+//        $request = Yii::$app->request;
+//
+//        $post    = $request->post();
+//
+//        if ($request->isAjax && !empty($post['id'])) {
+//
+//            Yii::$app->response->format = Response::FORMAT_JSON;
+//            $get=Product::findOne(['id'=>$post['id']]);
+//
+//            $all= [
+//                'status' => 'success',
+//                'data'=>$get,
+//            ];
+//            return json_encode($all);
+//
+//        }
+
+    }
+
+
+//    public function actionMobile($id)
+//    {
+//        $req = Yii::$app->request;
+//
+//     //   return json_encode($all);
+//            print_r($req);
+//        die;
+//        $model = new Product();
+//        $id = Yii::$app->request->get('product_name');
+//        //$id =$_POST['Product']['id'];
+//        print_r($id);
+//        die;
+//        // $productID =$id;
+//        //   $GLOBALS['ref']=$id;
+//        $product = new Product();
+//        //  $app = new Application();
+//        $appItem = new ApplicationItem();
+//        $customer = new Customer();
+//        $attachment = new Attachments();
+//        $user = new User();
+//        //  $user->signup()
+//        //  $appItem->product_id =  $id;
+//        if ($model->load(Yii::$app->request->post())) {
+//            print_r($model->product_name);
+//            die;
+//
+//        }
+//        return $this->render('signupMobile', [
+//            'customer' => $customer,
+//            'product' => $product,
+//            'attachment' => $attachment,
+//            'user' => $user,
+//            'appItem' => $appItem,
+//        ]);
+//
+//    }
+
+
     public function actionSignupMobile()
     {
+        $id= Yii::$app->request->post('id');
+        $productID= json_decode($id);
+
+//            if (isset($_POST['data'])) {
+//                var_dump(json_encode($_POST['data']));
+//                echo "success";
+//            } else {
+//                $productID=21;
+//            }
+
+     //   die;
+     //  $id= Yii::$app->request->post('id');
+     //   Yii::$app->response->format = Response::FORMAT_JSON;
+
+
+//        $data = Yii::$app->response->data = PackagesItems::find()
+//            ->where(['product_id' => intval($id)])
+//            ->asArray()
+//            ->all();
+//        $plan = Product::findOne(['id' => $id]);
+//
+//        $all = [
+//            'plan' => $plan->product_name,
+//            'items' => $data,
+//        ];
+
+      //  $productID= json_encode($id);
+     //   return $productID;
+
+
+     //   print_r($data);
+     //   die;
+//
+//        if (isset($data)) {
+//            $test = $data;
+//        } else {
+//            $test = 23;
+//        }
+        //    $getAll= \yii\helpers\Json::encode($test);
+       // $getAll = 23;
+
+        $model = new Product();
+        //  $model->load(Yii::$app->request->post());
+
         $product = new Product();
-      //  $app = new Application();
         $appItem = new ApplicationItem();
         $customer = new Customer();
         $attachment = new Attachments();
         $user = new User();
-        //  $user->signup()
 
+        $appItem->product_id = $productID;
+
+        // print_r($productID);
+        //   die;
         if ($customer->load(Yii::$app->request->post()) && $appItem->load(Yii::$app->request->post()) &&
-            $attachment->load(Yii::$app->request->post())&& $user->load(Yii::$app->request->post())) {
+            $attachment->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
 
 
             $customer->status = 0;
@@ -385,8 +529,8 @@ class SiteController extends Controller
 
             if ($customer->save(false)) {
 
-                $checkUser=User::findOne(['username'=>$customer->tin_number]);
-               if (empty($checkUser)) {
+                $checkUser = User::findOne(['username' => $customer->tin_number]);
+                if (empty($checkUser)) {
                     $user->full_name = $customer->name;
                     $user->username = $customer->tin_number;
                     $user->email = $customer->email;
@@ -441,26 +585,26 @@ class SiteController extends Controller
                     $app->send_tra = 0;
                     $app->app_dt = date('Y-m-d H:i:s');
                     $app->app_ref_number = Reference::findLast();
-                   if ( $app->save(false)){
+                    if ($app->save(false)) {
 
-                       $newItem = new ApplicationItem();
-                       $newItem->product_id=$appItem->product_id;
-                       $newItem->app_id = $app->id;
-                       $newItem->qty = 1;
-                       $newItem->price = Product::getPrice($appItem->product_id); //gets product price
+                        $newItem = new ApplicationItem();
+                        $newItem->product_id = $appItem->product_id;
+                        $newItem->app_id = $app->id;
+                        $newItem->qty = 1;
+                        $newItem->price = Product::getPrice($appItem->product_id); //gets product price
 
-                       $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
-                       $total = $TAX_COEF * $newItem->price * $newItem->qty;
+                        $TAX_COEF = (Product::getTax($appItem->product_id) / 100) + 1;
+                        $total = $TAX_COEF * $newItem->price * $newItem->qty;
 
-                       $taxAmount = $total - ($newItem->price * $newItem->qty);
+                        $taxAmount = $total - ($newItem->price * $newItem->qty);
 
-                       $newItem->total = $total;
-                       $newItem->tax_amount = $taxAmount;
-                       $newItem->app_status = Application::SUBMITTED;
-                       $newItem->maker_id =$customer->maker_id;
-                       $newItem->maker_time = date('Y-m-d H:i:s');
-                       $newItem->save();
-                   }
+                        $newItem->total = $total;
+                        $newItem->tax_amount = $taxAmount;
+                        $newItem->app_status = Application::SUBMITTED;
+                        $newItem->maker_id = $customer->maker_id;
+                        $newItem->maker_time = date('Y-m-d H:i:s');
+                        $newItem->save();
+                    }
 
                     Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
                     return $this->redirect(['site/login']);
@@ -471,7 +615,7 @@ class SiteController extends Controller
             //  print_r($customer->tin_number);
             // die;
 
-        //   Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            //   Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }
 
@@ -495,36 +639,6 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
-    }
-
-
-    public function actionData($id)
-
-    {
-
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        Yii::$app->response->format = Response::FORMAT_JSON;
-       // return json_encode(["test"=> 1]);
-        return ["test"=> 1];
-        //$data=  Yii::$app->response->data = Product::findAll(['type_id'=>1]);
-       // return json_encode($data);
-//        $request = Yii::$app->request;
-//
-//        $post    = $request->post();
-//
-//        if ($request->isAjax && !empty($post['id'])) {
-//
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            $get=Product::findOne(['id'=>$post['id']]);
-//
-//            $all= [
-//                'status' => 'success',
-//                'data'=>$get,
-//            ];
-//            return json_encode($all);
-//
-//        }
-
     }
 
 
@@ -581,8 +695,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
@@ -622,4 +736,56 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+
+    public function checkOut($params)
+    {
+        $payer = new Payer();
+        $payer->setPaymentMethod($params['method']);
+        $orderList = [];
+
+        foreach ($params['order']['items'] as $orderItem) {
+            $item = new PackagesItems();
+            $item->setName($orderItem['name'])
+                ->setCurrency($orderItem['currency'])
+                ->setQuantity($orderItem['quantity'])
+                ->setPrice($orderItem['price']);
+            $orderList[] = $item;
+        }
+        $itemList = new ItemList();
+        $itemList->setItems($orderList);
+        $details = new Details();
+        $details->setShipping($params['order']['shippingCost'])
+            ->setSubtotal($params['order']['subtotal']);
+        $amount = new Amount();
+        $amount->setCurrency($params['order']['currency'])
+            ->setTotal($params['order']['total'])
+            ->setDetails($details);
+        $transaction = new Transaction();
+        $transaction->setAmount($amount)
+            ->setItemList($itemList)
+            ->setDescription($params['order']['description'])
+            ->setCustom(Yii::$app->user->id)
+            ->setInvoiceNumber(uniqid());
+
+        $redirectUrl = Url::to([$this->redirectUrl], true);
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl("$redirectUrl?success=true")
+            ->setCancelUrl("$redirectUrl?success=false");
+        $payment = new Payment();
+        $payment->setIntent($params['intent'])
+            ->setPayer($payer)
+            ->setRedirectUrls($redirectUrls)
+            ->setTransactions(array($transaction));
+        try {
+            $payment->create($this->apiContext);
+            return \Yii::$app->controller->redirect($payment->getApprovalLink());
+        } catch (PayPalConnectionException $ex) {
+            // This will print the detailed information on the exception.
+            //REALLY HELPFUL FOR DEBUGGING
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_HTML;
+            \Yii::$app->response->data = $ex->getData();
+        }
+    }
+
 }

@@ -35,7 +35,7 @@ if (Yii::$app->user->isGuest) {  ?>
                     <ul>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">WebTechnologies</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="#">TRA</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">ZRA</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">ZRB</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-6 footer-links">
